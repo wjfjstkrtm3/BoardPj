@@ -16,4 +16,12 @@
    
    </insert>
 
+		<select id="list" resultType="kr.co.vo.BoardVO">
+		SELECT   BNO
+			   , TITLE
+			   , WRITER
+			   , REGDATE
+		  FROM MP_BOARD
+		  ORDER BY BNO DESC
+	</select>
 </mapper>
