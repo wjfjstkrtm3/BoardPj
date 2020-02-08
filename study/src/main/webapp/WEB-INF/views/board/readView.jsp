@@ -19,9 +19,13 @@
 		});
 		
 		$(".delete_btn").on("click", function() {
+			var deleteYN = confirm("정말 삭제 하시겠습니까?");
+			
+			if(deleteYN == true) {
 			formObj.attr("action", "/board/delete");
 			formObj.attr("method", "POST");
 			formObj.submit();
+			}
 		});
 		
 		$(".list_btn").on("click", function() {
@@ -41,9 +45,9 @@
 			</header>
 			<hr />
 			 
-			<nav>
-			  홈 - 글 작성
-			</nav>
+			<div>
+		<%@include file="nav.jsp"%>
+			</div>
 			<hr />
 			
 			<section id="container">
