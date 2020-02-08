@@ -25,7 +25,9 @@
 				<tr><th>번호</th><th>제목</th><th>작성자</th><th>등록일</th></tr>
 			<c:forEach items="${list}" var="list">
 				<tr>
-					<td>${list.bno}</td>
+					<td>
+					<a href="/board/readView?bno=${list.bno}">${list.bno}</a>
+					</td>
 					<td>${list.title}</td>
 					<td>${list.writer}</td>
 					<td><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></td>
