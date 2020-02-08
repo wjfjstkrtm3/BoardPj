@@ -35,7 +35,7 @@ public class BoardController {
 		
 		service.write(boardVO);
 		
-		return "redirect:/";
+		return "redirect:/board/list";
 	}
 	
 	// 게시물 목록
@@ -52,5 +52,28 @@ public class BoardController {
 		logger.info("read");
 		model.addAttribute("read", service.read(boardVO.getBno()));
 		return "/board/readView";
+	}
+	
+	// 게시물 수정뷰
+	@RequestMapping(value="/updateView", method=RequestMethod.GET)
+	public String updateView(BoardVO boardVO, Model model) throws Exception {
+		logger.info("updateView");
+		model.addAttribute("update", service.read(boardVO.getBno()));
+		return "/board/updateView";
+	}
+	
+	// 게시물 수정
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(BoardVO boardVO) throws Exception {
+		logger.info("update");
+		service.update(boardVO);
+		return "redirect:/board/list";
+	}
+	
+	// 게시물 삭제
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	public String delete(int bno) throws Exception {
+		service.delete(bno);
+		return "redirect:/board/list";
 	}
 }
