@@ -19,6 +19,8 @@
 		               REGDATE, 
 		               ROW_NUMBER() OVER(ORDER BY BNO DESC) AS RNUM
 		         FROM MP_BOARD 
+		         WHERE 1=1
+		         	<include refid="search"></include>
 		                       ) MP
 		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY BNO DESC
@@ -26,13 +28,22 @@
 
 
 	<select id="listCount" resultType="int">
-	<![CDATA[
-		SELECT COUNT(BNO)
-		  FROM MP_BOARD
-		 WHERE BNO > 0
-	]]>
+	SELECT COUNT(BNO)
+		FROM MP_BOARD
+		WHERE 1=1
+		<include refid="search"></include>
+		AND BNO > 0
 	</select>
 	
+	
+	<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (TITLE LIKE '%' || #{keyword} || '%') or (CONTENT LIKE '%' || #{keyword} || '%')</if>
+		</if>
+	</sql>
 	   <!-- 게시판 글 작성 -->
    <insert id="insert">
 	   INSERT INTO MP_BOARD(    BNO 
