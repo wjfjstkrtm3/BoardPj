@@ -38,6 +38,7 @@ public class MemberController {
 		return null;
 	}
 	
+	// 로그인 POST
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(MemberVO memberVO, HttpServletRequest request, RedirectAttributes rttr) throws Exception {
 		logger.info("post login");
@@ -54,8 +55,23 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 로그아웃 GET
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) throws Exception {
+		session.invalidate();
+		return "redirect:/";
+	}
+	
+	// 회원정보 수정(View) GET
+	@RequestMapping(value="/memberUpdateView", method=RequestMethod.GET) 
+	public String registerUpdateView() throws Exception{
+		return "/member/memberUpdateView";
+	}
+	
+	// 회원정보 수정 (처리) POST
+	@RequestMapping(value="/memberUpdate", method=RequestMethod.POST)
+	public String registerUpdate(MemberVO memberVO, HttpSession session) throws Exception {
+		service.memberUpdate(memberVO);
 		session.invalidate();
 		return "redirect:/";
 	}

@@ -23,4 +23,9 @@ public class MemberServiceImpl implements MemberService {
 		return dao.login(memberVO);
 	}
 
+	@Override
+	public void memberUpdate(MemberVO memberVO) throws Exception {
+			dao.memberUpdate(memberVO);
+	}
+
 }

@@ -25,7 +25,12 @@
     
     
     <!-- 회원정보 수정  -->
-    
+    	<update id="memberUpdate">
+    		UPDATE MP_MEMBER
+    		 SET USERPASS = #{userPass},
+    		     USERNAME = #{userName}
+    		     WHERE USERID = #{userId}
+    	</update>
     
     
 </mapper>
