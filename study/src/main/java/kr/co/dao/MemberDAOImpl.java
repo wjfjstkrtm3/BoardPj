@@ -31,4 +31,10 @@ public class MemberDAOImpl implements MemberDAO{
 		sqlsession.update("memberMapper.memberUpdate", memberVO);
 	}
 
+
+	@Override
+	public void memberDelete(MemberVO memberVO) throws Exception {
+		sqlsession.delete("memberMapper.memberDelete", memberVO);
+	}
+
 }

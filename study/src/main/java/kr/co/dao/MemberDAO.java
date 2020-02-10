@@ -12,4 +12,8 @@ public interface MemberDAO {
 	
 	// 회원정보 수정
 	public void memberUpdate(MemberVO memberVO) throws Exception;
+	
+	// 회원탈퇴
+	public void memberDelete(MemberVO memberVO) throws Exception;
+	
 }
