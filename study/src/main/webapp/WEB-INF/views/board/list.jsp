@@ -30,7 +30,7 @@
 			<c:forEach items="${list}" var="list">
 				<tr>
 					<td>
-					<a href="/board/readView?bno=${list.bno}">${list.bno}</a>
+					<a href="/board/readView?bno=${list.bno}&page=${scri.page}&perPageNum=${scri.perPageNum}&searchType=${scri.searchType}&keyword=${scri.keyword}"><c:out value="${list.title}" /></a>
 					</td>
 					<td>${list.title}</td>
 					<td>${list.writer}</td>
