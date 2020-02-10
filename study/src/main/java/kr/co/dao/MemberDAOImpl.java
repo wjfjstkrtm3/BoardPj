@@ -19,4 +19,10 @@ public class MemberDAOImpl implements MemberDAO{
 		sqlsession.insert("memberMapper.register", memberVO);
 	}
 
+
+	@Override
+	public MemberVO login(MemberVO memberVO) throws Exception {
+		return sqlsession.selectOne("memberMapper.login", memberVO);
+	}
+
 }

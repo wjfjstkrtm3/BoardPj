@@ -120,7 +120,7 @@ public class BoardController {
 		}
 		
 		// 댓글 작성
-		@RequestMapping(value="/replywrite", method=RequestMethod.POST)
+		@RequestMapping(value="/replyWrite", method=RequestMethod.POST)
 		public String replyWrite(ReplyVO replyVO, SearchCriteria scri, RedirectAttributes rttr) throws Exception{
 			logger.info("reply Writer");
 			
