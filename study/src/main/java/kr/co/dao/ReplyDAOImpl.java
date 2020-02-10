@@ -25,4 +25,19 @@ public class ReplyDAOImpl implements ReplyDAO {
 		sqlsession.insert("replyMapper.writeReply", replyVO);
 	}
 
+	@Override
+	public void updateReply(ReplyVO replyVO) throws Exception {
+		sqlsession.update("replyMapper.updateReply", replyVO);
+	}
+
+	@Override
+	public void deleteReply(ReplyVO replyVO) throws Exception {
+		sqlsession.delete("replyMapper.deleteReply", replyVO);
+	}
+
+	@Override
+	public ReplyVO selectReply(int rno) throws Exception {
+		return sqlsession.selectOne("replyMapper.selectReply", rno);
+	}
+
 }
