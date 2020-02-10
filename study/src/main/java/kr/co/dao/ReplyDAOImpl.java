@@ -20,4 +20,9 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return sqlsession.selectList("replyMapper.readReply", bno);
 	}
 
+	@Override
+	public void writeReply(ReplyVO replyVO) throws Exception {
+		sqlsession.insert("replyMapper.writeReply", replyVO);
+	}
+
 }

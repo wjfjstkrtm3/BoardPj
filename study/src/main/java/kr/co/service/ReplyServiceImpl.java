@@ -21,4 +21,9 @@ public class ReplyServiceImpl implements ReplyService {
 		return dao.readReply(bno); 
 	}
 
+	@Override
+	public void writeReply(ReplyVO replyVO) throws Exception {
+			  dao.writeReply(replyVO);
+	}
+
 }
