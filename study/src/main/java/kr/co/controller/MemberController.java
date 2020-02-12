@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,9 @@ public class MemberController {
 	@Inject
 	private MemberService service;
 	
+	@Inject
+	private BCryptPasswordEncoder pwdEncoder;
+	
 	// 회원가입 get
 	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public void getRegister() throws Exception {
@@ -38,6 +42,9 @@ public class MemberController {
 		if(result == 1) {
 			return "/member/register";
 		} else if(result ==0) {
+			String inputPass = memberVO.getUserPass();
+			String pwd = pwdEncoder.encode(inputPass);
+			memberVO.setUserPass(pwd);
 			service.register(memberVO);
 		}
 		
@@ -51,11 +58,15 @@ public class MemberController {
 		
 		HttpSession session = request.getSession();
 		MemberVO login = service.login(memberVO);
-		if(login == null) {
+		
+		boolean pwdMatch = pwdEncoder.matches(memberVO.getUserPass(), login.getUserPass());
+		
+		
+		if(login != null && pwdMatch == true) {
+			session.setAttribute("member", login);
+		} else {
 			session.setAttribute("member", null);
 			rttr.addFlashAttribute("msg", false);
-		} else {
-			session.setAttribute("member", login);
 		}
 		
 		return "redirect:/";
@@ -91,19 +102,7 @@ public class MemberController {
 	// 회원탈퇴 처리 POST
 	@RequestMapping(value="memberDelete", method=RequestMethod.POST)
 	public String memberDelete(MemberVO memberVO, HttpSession session, RedirectAttributes rttr) throws Exception {
-		// 세션이 있는 member를 가져와 member변수에 넣어줍니다
-		MemberVO member = (MemberVO)session.getAttribute("member");
 		
-		// 세션에 들어있는 비밀번호
-		String sessionPass = member.getUserPass();
-		
-		// vo로 들어오는 비밀번호
-		String voPass = memberVO.getUserPass();
-		
-		if(!(sessionPass.equals(voPass))) {
-			rttr.addFlashAttribute("msg", false);
-			return "redirect:/member/memberDeleteView";
-		}
 		service.memberDelete(memberVO);
 		session.invalidate();
 		return "redirect:/";
@@ -112,9 +111,10 @@ public class MemberController {
 	// 패스워드 체크
 	@ResponseBody
 	@RequestMapping(value="/passChk", method=RequestMethod.POST)
-	public int passChk(MemberVO memberVO) throws Exception {
-		int result = service.passChk(memberVO);
-		return result;
+	public boolean passChk(MemberVO memberVO) throws Exception {
+		MemberVO login = service.login(memberVO);
+		boolean pwdChk = pwdEncoder.matches(memberVO.getUserPass(), login.getUserPass());
+		return pwdChk;
 	}
 	
 	@ResponseBody
