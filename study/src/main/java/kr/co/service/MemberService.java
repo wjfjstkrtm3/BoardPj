@@ -15,4 +15,7 @@ public interface MemberService {
 	
 	// 회원탈퇴
 	public void memberDelete(MemberVO memberVO) throws Exception;
+	
+	// 패스워드 체크
+	public int passChk(MemberVO memberVO) throws Exception;
 }
