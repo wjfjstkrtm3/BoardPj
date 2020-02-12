@@ -18,4 +18,7 @@ public interface MemberService {
 	
 	// 패스워드 체크
 	public int passChk(MemberVO memberVO) throws Exception;
+	
+	// 아이디 중복 체크
+	public int idChk(MemberVO memberVO) throws Exception;
 }

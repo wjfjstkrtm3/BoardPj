@@ -44,4 +44,12 @@ public class MemberDAOImpl implements MemberDAO{
 		return result;
 	}
 
+
+	@Override
+	public int idChk(MemberVO memberVO) throws Exception {
+		int result = sqlsession.selectOne("memberMapper.idChk", memberVO);
+		return result;
+		
+	}
+
 }

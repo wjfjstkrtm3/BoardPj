@@ -34,9 +34,14 @@ public class MemberController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String postRegister(MemberVO memberVO) throws Exception {
 		logger.info("post register");
-		service.register(memberVO);
+		int result = service.idChk(memberVO);
+		if(result == 1) {
+			return "/member/register";
+		} else if(result ==0) {
+			service.register(memberVO);
+		}
 		
-		return null;
+		return "redirect:/";
 	}
 	
 	// 로그인 POST
@@ -111,5 +116,15 @@ public class MemberController {
 		int result = service.passChk(memberVO);
 		return result;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/idChk", method=RequestMethod.POST)
+	// 아이디 중복 체크
+	public int idChk(MemberVO memberVO) throws Exception {
+		int result = service.idChk(memberVO);
+		return result;
+	}
+	
+	
 	
 }

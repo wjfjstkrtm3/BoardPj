@@ -39,4 +39,10 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public int idChk(MemberVO memberVO) throws Exception {
+		int result = dao.idChk(memberVO);
+		return result;
+	}
+
 }
