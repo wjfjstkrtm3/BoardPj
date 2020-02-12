@@ -2,12 +2,16 @@ package kr.co.service;
 
 
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import kr.co.dao.BoardDAO;
+import kr.co.util.FileUtils;
 import kr.co.vo.BoardVO;
 import kr.co.vo.SearchCriteria;
 
@@ -17,11 +21,9 @@ public class BoardServiceImpl implements BoardService {
 	@Inject
 	private BoardDAO dao;
 	
-	// 게시글 작성
-	@Override
-	public void write(BoardVO boardVO) throws Exception {
-		dao.write(boardVO);
-	}
+	@Resource(name="fileUtils")
+	private FileUtils fileUtils;
+	
 
 	// 게시글 조회
 	@Override
@@ -51,6 +53,19 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int listCount(SearchCriteria scri) throws Exception {
 		return dao.listCount(scri);
+	}
+
+	// 게시글 작성
+	@Override
+	public void write(BoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception {
+		dao.write(boardVO);
+		
+		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(boardVO, mpRequest); 
+		int size = list.size();
+		for(int i=0; i<size; i++){ 
+			dao.insertFile(list.get(i)); 
+		}
+		
 	}
 
 }

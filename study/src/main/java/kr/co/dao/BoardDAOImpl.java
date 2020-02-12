@@ -1,6 +1,7 @@
 package kr.co.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -8,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import kr.co.vo.BoardVO;
-import kr.co.vo.Criteria;
 import kr.co.vo.SearchCriteria;
 
 @Repository
@@ -52,6 +52,13 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public int listCount(SearchCriteria scri) throws Exception {
 		return sqlSession.selectOne("boardMapper.listCount");
+	}
+
+
+
+	@Override
+	public void insertFile(Map<String, Object> map) throws Exception {
+		sqlSession.insert("boardMapper.insertFile", map);		
 	}
 
 }
