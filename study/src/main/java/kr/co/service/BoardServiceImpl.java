@@ -1,6 +1,5 @@
 package kr.co.service;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -20,10 +19,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Inject
 	private BoardDAO dao;
-	
-	@Resource(name="fileUtils")
+
+	@Resource(name = "fileUtils")
 	private FileUtils fileUtils;
-	
 
 	// 게시글 조회
 	@Override
@@ -59,15 +57,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void write(BoardVO boardVO, MultipartHttpServletRequest mpRequest) throws Exception {
 		dao.write(boardVO);
-		
-		List<Map<String,Object>> list = fileUtils.parseInsertFileInfo(boardVO, mpRequest); 
+
+		List<Map<String, Object>> list = fileUtils.parseInsertFileInfo(boardVO, mpRequest);
 		int size = list.size();
-		for(int i=0; i<size; i++){ 
-			dao.insertFile(list.get(i)); 
+		for (int i = 0; i < size; i++) {
+			dao.insertFile(list.get(i));
 		}
-		
+
 	}
-	
+
 	// 첨부파일 조회
 	@Override
 	public List<Map<String, Object>> selectFileList(int bno) throws Exception {
@@ -77,6 +75,26 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception {
 		return dao.selectFileInfo(map);
+	}
+
+	// 첨부파일 수정
+	@Override
+	public void update(BoardVO boardVO, String[] files, String[] fileNames, MultipartHttpServletRequest mpRequest)
+			throws Exception {
+		dao.update(boardVO);
+
+		List<Map<String, Object>> list = fileUtils.parseUpdateFileInfo(boardVO, files, fileNames, mpRequest);
+		Map<String, Object> tempMap = null;
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			tempMap = list.get(i);
+			if (tempMap.get("IS_NEW").equals("Y")) {
+				dao.insertFile(tempMap);
+			} else {
+				dao.updateFile(tempMap);
+			}
+		}
+
 	}
 
 }

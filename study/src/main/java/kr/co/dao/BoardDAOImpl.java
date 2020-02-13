@@ -75,6 +75,20 @@ public class BoardDAOImpl implements BoardDAO {
 	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception {
 		return sqlSession.selectOne("boardMapper.selectFileInfo", map);
 	}
+
+
+
+	@Override
+	public void updateFile(Map<String, Object> map) throws Exception {
+		sqlSession.update("boardMapper.updateFile", map);
+	}
+
+
+
+	@Override
+	public void boardHit(int bno) throws Exception {
+		sqlSession.update("boardMapper.boardHit", bno);
+	}
 	
 	
 
