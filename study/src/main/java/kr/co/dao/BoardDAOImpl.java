@@ -87,7 +87,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void boardHit(int bno) throws Exception {
-		System.out.println("bno : " + bno);
 		sqlSession.update("boardMapper.boardHit", bno);
 	}
 	
