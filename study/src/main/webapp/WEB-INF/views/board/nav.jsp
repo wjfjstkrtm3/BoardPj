@@ -12,7 +12,8 @@
 			<a href="/member/logout">로그아웃</a>	
 		</c:if>
 		<c:if test="${member == null}">
-			<a href="/member/login">로그인</a>	
+			<a href="#">로그인</a>
+			
 		</c:if>
 	</li>
 	
